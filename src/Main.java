@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +21,43 @@ public class Main {
                 count++;
                 System.out.println("Это файл номер " + count);
             }
+            //построчное чтение файла
+            int cnt_line = 0;
+            int max = 0;
+            int min = 1024;
+
+            try {
+                FileReader fileReader = new FileReader(path);
+                BufferedReader reader = new BufferedReader(fileReader);
+                String line;
+
+
+                while ((line = reader.readLine()) != null) {
+                    int length = line.length();
+                    cnt_line += 1;
+                    if (length > 1024) {
+                        throw new CustomException("Длина строки номер " + cnt_line + " больше, чем 1024 символа.");
+                    }
+                    if (length > max) {
+                        max = length;
+                    }
+                    if (length < min) {
+                        min = length;
+                    }
+                }
+            } catch (FileNotFoundException ex1) {
+                System.out.println("Файл не существует");
+                ex1.printStackTrace();
+            } catch (IOException ex2) {
+                System.out.println("Ошибка при вводе данных");
+                ex2.printStackTrace();
+            }
+
+            System.out.println("Количество строк в файле: " + cnt_line);
+            System.out.println("Максимальная длина строки : " + max);
+            System.out.println("Минимальная длина строки : " + min);
         }
 
     }
 }
+
