@@ -23,8 +23,8 @@ public class Main {
             }
             //построчное чтение файла
             int cnt_line = 0;
-            int max = 0;
-            int min = 1024;
+            int cnt_y = 0;
+            int cnt_g = 0;
 
             try {
                 FileReader fileReader = new FileReader(path);
@@ -38,11 +38,25 @@ public class Main {
                     if (length > 1024) {
                         throw new CustomException("Длина строки номер " + cnt_line + " больше, чем 1024 символа.");
                     }
-                    if (length > max) {
-                        max = length;
-                    }
-                    if (length < min) {
-                        min = length;
+                    if (line.indexOf("(") > 0 && line.indexOf(")") > 0) {
+
+                        //Нахождение User-Agent
+                        String firstBrackets = line.substring(line.lastIndexOf("\"", line.indexOf("(")), line.indexOf("\"", line.indexOf("(")) + 1);
+
+                        String[] parts = firstBrackets.split(";");
+                        if (parts.length >= 2) {
+                            String fragment = parts[1];
+                            if (fragment.indexOf("/") > 0) {
+                                String bot = (fragment.substring(0, fragment.indexOf("/")));
+                                //очистка от пробелов и нахождение ботов
+                                if (bot.replace(" ", "").equals("YandexBot")) {
+                                    cnt_y++;
+                                }
+                                if (bot.replace(" ", "").equals("Googlebot")) {
+                                    cnt_g++;
+                                }
+                            }
+                        }
                     }
                 }
             } catch (FileNotFoundException ex1) {
@@ -54,8 +68,8 @@ public class Main {
             }
 
             System.out.println("Количество строк в файле: " + cnt_line);
-            System.out.println("Максимальная длина строки : " + max);
-            System.out.println("Минимальная длина строки : " + min);
+            System.out.println("Доля запросов от YandexBot: " + (double) cnt_y / (double) cnt_line);
+            System.out.println("Доля запросов от Googlebot: " + (double) cnt_g / (double) cnt_line);
         }
 
     }
