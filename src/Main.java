@@ -87,8 +87,8 @@ public class Main {
             //Duration duration = Duration.between(test.minTime, test.maxTime);
             //double hour = duration.toHours();
             //System.out.println(hour);
-            //System.out.println(test2.nonExistPages.size());
-            System.out.println(test2.getTypeSysCount());
+            System.out.println(test2.nonExistPages.size());
+            System.out.println(test2.getBrowserCount());
             }
         }
 
