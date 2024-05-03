@@ -9,6 +9,8 @@ public class Statistics {
     private HashSet<LogEntry> listPages;
     public HashSet<String> existPages = new HashSet<>();
     public HashMap<String, Integer> typeSysCount = new HashMap<>();
+    //public HashSet <String> nonExistPages = new HashSet<>();
+    //public HashMap<String, Integer> browserCount = new HashMap<>();
 
 
     public Statistics() {
@@ -36,15 +38,19 @@ public class Statistics {
             existPages.add(logEntry.path);
            // System.out.println(existPages);
         }
-       // System.out.println(new UserAgent(logEntry.userAgent).getTypeSys());
+
         String sys = new UserAgent(logEntry.userAgent).toString();
-        //String sys = "Jy";
         if (typeSysCount.containsKey(sys)) {
             int count = typeSysCount.get(sys);
             typeSysCount.put(sys, count +1);
         } else {
             typeSysCount.put(sys, 1);
         }
+        //if (logEntry.responseCode == 404) {
+            //System.out.println(logEntry.toString());
+          //  nonExistPages.add(logEntry.path);
+        //}
+
 
         listPages.add(logEntry);
     }

@@ -17,7 +17,7 @@ public class UserAgent {
 
     @Override
     public String toString() {
-        return "" + browser + "";
+        return "" + typeSys + "";
     }
 
     public UserAgent(String userAgentStr) {
