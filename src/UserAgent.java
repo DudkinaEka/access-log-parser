@@ -1,7 +1,7 @@
 public class UserAgent {
     private final String userAgentStr;
     private final TypeSys typeSys;
-    private final Browser browser;
+    public final Browser browser;
 
     public String getUserAgentStr() {
         return userAgentStr;
@@ -17,11 +17,7 @@ public class UserAgent {
 
     @Override
     public String toString() {
-        return "UserAgent{" +
-                "userAgentStr='" + userAgentStr + '\'' +
-                ", typeSys=" + typeSys +
-                ", browser=" + browser +
-                '}';
+        return "" + browser + "";
     }
 
     public UserAgent(String userAgentStr) {

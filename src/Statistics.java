@@ -7,6 +7,9 @@ public class Statistics {
     public LocalDateTime minTime;
     public LocalDateTime maxTime;
     private HashSet<LogEntry> listPages;
+    public HashSet<String> existPages = new HashSet<>();
+    public HashMap<String, Integer> typeSysCount = new HashMap<>();
+
 
     public Statistics() {
         this.totalTraffic = 0;
@@ -15,6 +18,9 @@ public class Statistics {
         this.listPages = new HashSet<>();
     }
 
+    public HashSet<String> getExistPages() {
+        return existPages;
+    }
 
     public void addEntry(LogEntry logEntry) {
         totalTraffic += logEntry.getDataSize();
@@ -26,7 +32,34 @@ public class Statistics {
         if (this.maxTime == null || logEntryTime.isAfter(maxTime)) {
             maxTime = logEntryTime;
         }
+        if (logEntry.responseCode == 200) {
+            existPages.add(logEntry.path);
+           // System.out.println(existPages);
+        }
+       // System.out.println(new UserAgent(logEntry.userAgent).getTypeSys());
+        String sys = new UserAgent(logEntry.userAgent).toString();
+        //String sys = "Jy";
+        if (typeSysCount.containsKey(sys)) {
+            int count = typeSysCount.get(sys);
+            typeSysCount.put(sys, count +1);
+        } else {
+            typeSysCount.put(sys, 1);
+        }
+
         listPages.add(logEntry);
+    }
+    public HashMap<String, Double> getTypeSysCount () {
+        HashMap<String, Double> sysStatistic = new HashMap<>();
+        int totalSys = 0;
+        for (int count : typeSysCount.values()) {
+            totalSys += count;
+        }
+        for (String sys : typeSysCount.keySet()) {
+            int count = typeSysCount.get(sys);
+                double fraction = (double) count / totalSys;
+                sysStatistic.put(sys, fraction);
+        }
+        return sysStatistic;
     }
 
     public int getTrafficRate() {

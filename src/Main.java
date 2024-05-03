@@ -27,7 +27,8 @@ public class Main {
             int cnt_line = 0;
             int cnt_y = 0;
             int cnt_g = 0;
-            Statistics test = new Statistics();
+            //Statistics test = new Statistics();
+            Statistics test2 = new Statistics();
 
             try {
                 FileReader fileReader = new FileReader(path);
@@ -43,11 +44,12 @@ public class Main {
                     }
                     if (line.indexOf("(") > 0 && line.indexOf(")") > 0) {
 
-                        System.out.println(line);
+                        //System.out.println(line);
                         //System.out.println(new LogEntry(line).toString());
                         //System.out.println(new UserAgent(new LogEntry(line).userAgent));
 
-                        test.addEntry(new LogEntry(line));
+                        //test.addEntry(new LogEntry(line));
+                        test2.addEntry(new LogEntry(line));
 
                         //Нахождение User-Agent
                         String firstBrackets = line.substring(line.lastIndexOf("\"", line.indexOf("(")), line.indexOf("\"", line.indexOf("(")) + 1);
@@ -79,15 +81,16 @@ public class Main {
             //System.out.println("Количество строк в файле: " + cnt_line);
             //System.out.println("Доля запросов от YandexBot: " + (double) cnt_y / (double) cnt_line);
             //System.out.println("Доля запросов от Googlebot: " + (double) cnt_g / (double) cnt_line);
-            System.out.println(test.getTrafficRate());
-            System.out.println(test.minTime);
-            System.out.println(test.maxTime);
-            Duration duration = Duration.between(test.minTime, test.maxTime);
-            double hour = duration.toHours();
-            System.out.println(hour);
-
+            //System.out.println(test.getTrafficRate());
+            //System.out.println(test.minTime);
+            //System.out.println(test.maxTime);
+            //Duration duration = Duration.between(test.minTime, test.maxTime);
+            //double hour = duration.toHours();
+            //System.out.println(hour);
+            System.out.println(test2.getTypeSysCount());
+            }
         }
 
     }
-}
+
 
