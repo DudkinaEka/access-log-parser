@@ -50,6 +50,7 @@ public class Main {
 
                         //test.addEntry(new LogEntry(line));
                         test2.addEntry(new LogEntry(line));
+                        //System.out.println(test2.isBot(new LogEntry(line).userAgent));
 
                         //Нахождение User-Agent
                         String firstBrackets = line.substring(line.lastIndexOf("\"", line.indexOf("(")), line.indexOf("\"", line.indexOf("(")) + 1);
@@ -87,8 +88,12 @@ public class Main {
             //Duration duration = Duration.between(test.minTime, test.maxTime);
             //double hour = duration.toHours();
             //System.out.println(hour);
-            System.out.println(test2.nonExistPages.size());
-            System.out.println(test2.getBrowserCount());
+            //System.out.println(test2.nonExistPages.size());
+            //System.out.println(test2.getBrowserCount());
+            System.out.println(test2.getAvgTotalVisitPerHour());
+            System.out.println(test2.getAvgErrorPerHour());
+            System.out.println(test2.userVisit);
+            System.out.println(test2.getAvgVisitUniqUser());
             }
         }
 
