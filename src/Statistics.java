@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 public class Statistics {
@@ -19,6 +20,9 @@ public class Statistics {
     //public HashMap<String, Integer> typeSysCount = new HashMap<>();
     public HashSet <String> nonExistPages = new HashSet<>();
     public HashMap<String, Integer> browserCount = new HashMap<>();
+    public HashMap<Integer, Integer> visitPerSecExclBot = new HashMap<>();
+
+    public Set<String> referringDomains = new HashSet<>();
 
 
     public Statistics() {
@@ -45,6 +49,10 @@ public class Statistics {
             if (this.maxTimeExclBot == null || logEntryTime.isAfter(maxTimeExclBot)) {
                 maxTimeExclBot = logEntryTime;
             }
+            long secSinceEpoch = logEntry.dateTime.toEpochSecond(ZoneOffset.UTC);
+            int second = (int) secSinceEpoch;
+            //System.out.println(second);
+            visitPerSecExclBot.put(second, visitPerSecExclBot.getOrDefault(second,0)+1);
         }
         if (this.minTime == null || logEntryTime.isBefore(minTime)) {
             minTime = logEntryTime;
@@ -77,7 +85,11 @@ public class Statistics {
             //System.out.println(logEntry.toString());
             nonExistPages.add(logEntry.path);
         }
-
+        if (logEntry.referer.length() > 1){
+            System.out.println(logEntry.referer);
+            System.out.println(extractDomain(logEntry.referer));
+            referringDomains.add(extractDomain(logEntry.referer));
+        }
 
         listPages.add(logEntry);
     }
@@ -124,4 +136,24 @@ public class Statistics {
     public boolean isBot (String userAgent) {
         return userAgent.contains("bot");
     }
+
+    public Integer getPeakVisitPerSec (){
+        return visitPerSecExclBot.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+    }
+    public Set <String> getReferringDomains(){
+        return referringDomains;
+    }
+
+    public String extractDomain (String url){
+        String domain = url.split("[/%3A%2F%2F]")[2];
+        if (domain.startsWith("www.")){
+            domain = domain.substring(4);
+        }
+        return domain;
+    }
+
+    public Integer maxVisitForUser (){
+        return userVisit.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+    }
+
 }
